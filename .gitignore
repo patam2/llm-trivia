@@ -23,9 +23,9 @@ frontend/yarn-debug.log*
 frontend/yarn-error.log*
 
 # Python
-backend/__pycache__/
-backend/*.py[cod]
-backend/*$py.class
+backend/*/__pycache__/
+backend/*/*.py[cod]
+backend/*/*$py.class
 backend/*.so
 backend/.Python
 backend/build/
@@ -44,6 +44,7 @@ backend/share/python-wheels/
 backend/*.egg-info/
 backend/.installed.cfg
 backend/*.egg
+.pyc
 
 # Virtual Environment
 backend/venv/
