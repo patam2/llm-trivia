@@ -45,16 +45,9 @@ async def health_check():
             "error": str(e)
         }
 
-@app.get('/ws')
-async def websocket_endpoint(websocket: WebSocket):
-    await websocket.accept()
-    while True:
-        data = await websocket.receive_text()
-        await websocket.send_text(f"Message text was: {data}")
-    
 
 app.include_router(rooms.router, prefix="/api/v1", tags=["rooms"])
-
+app.include_router(websocket.WebSocketRouter, prefix="/api/v1", tags=["ws"])
 
 
 

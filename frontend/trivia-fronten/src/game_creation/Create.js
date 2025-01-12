@@ -41,23 +41,23 @@ function CreateGameComponent () {
           <form>
             <div>
                 <label>Game name:
-                    <input type='text' id="gameName" name='gameName' />
+                    <input type='text' id="gameName" name='gameName' autocomplete="off"  />
                 </label>
             </div>
             <div>
                 <label>Number of questions:
-                    <input type='number' id="qNum" name='numQuestions' />
+                    <input type='number' id="qNum" name='numQuestions' autocomplete="off" max="25" />
                 </label>
             </div>
             <div>
                 <label>Topic:
-                    <input type='text' id="topic" name='topic' />
+                    <input type='text' id="topic" name='topic' autocomplete="off"  />
                 </label>
             </div>
 
             <div>
                 <label>Your name:
-                    <input type='text' id="name" name='topic' />
+                    <input type='text' id="name" name='topic' autocomplete="off"  />
                 </label>
             </div>
 

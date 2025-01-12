@@ -23,10 +23,10 @@ frontend/yarn-debug.log*
 frontend/yarn-error.log*
 
 # Python
-backend/*/__pycache__/
-backend/*/*.py[cod]
-backend/*/*$py.class
-backend/*.so
+/__pycache__/
+*.py[cod]
+*$py.class
+*.so
 backend/.Python
 backend/build/
 backend/develop-eggs/

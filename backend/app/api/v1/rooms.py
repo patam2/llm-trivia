@@ -19,8 +19,11 @@ async def create_room(
     room = Room(
         id=uuid.uuid4().__str__(), 
         name=data.get("gameName"),
+        topic=data.get("topic"),
+        max_questions=data.get("numQuestions"),
         players=[
             Player(
+                id=uuid.uuid4().__str__(),
                 name=data.get("hostName", host_name),
                 is_host=True,
                 is_ready=False,
@@ -31,10 +34,10 @@ async def create_room(
         max_players=4
     )
 
-    await game_service.create_room(
+    newroom = await game_service.create_room(
         room
     )
-    return room.model_dump_json()
+    return newroom.model_dump_json()
 
 @router.get("/{room_id}")
 async def get_room(request: Request, room_id: str, game_service: GameService = Depends(GameService)):

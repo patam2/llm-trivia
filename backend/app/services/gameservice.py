@@ -4,6 +4,7 @@ from redis.asyncio import Redis
 import json
 import random
 import string
+import uuid
 
 
 
@@ -29,6 +30,7 @@ class GameService:
 
     async def join_room(self, room_code: str, player_name: str):
         player = Player(
+            id=uuid.uuid4().__str__(),
             name=player_name,
             is_host=False,
             is_ready=False,
@@ -60,6 +62,47 @@ class GameService:
     async def get_room_id_from_code(self, room_code: str):
         return await self.redis.get(f"code:{room_code}")
     
+    async def handle_submit_answer(self, room_id: str, player_id: str, answer: str):
+        room = await self.get_room(room_id)
+        for player in room.players:
+            if player.id == player_id:
+                player.has_answered = True
+                if answer == room.current_question_answer:
+                    player.points += 1
+
+        has_everyone_answered = all([player.has_answered for player in room.players])
+
+        await self.redis.set(
+            f"room:{room_id}", room.model_dump_json(), ex=3600
+        )
+        return {"status": "success", "has_everyone_answered": has_everyone_answered}
+
+    async def nullify_answers(self, room_id: str):
+        room = await self.get_room(room_id)
+        for player in room.players:
+            player.has_answered = False
+        await self.redis.set(
+            f"room:{room_id}", room.model_dump_json(), ex=3600
+        )
+        return {"status": "success"}
+    
+    async def set_current_question(self, room_id: str, question: str, answer: str, index: int):
+        room = await self.get_room(room_id)
+        room.current_question = question
+        room.current_question_answer = answer
+        room.current_question_index = index
+        await self.redis.set(
+            f"room:{room_id}", room.model_dump_json(), ex=3600
+        )
+        return {"status": "success"}
+    
+    async def set_last_question(self, room_id: str, question: str):
+        room = await self.get_room(room_id)
+        room.last_questions.append(question)
+        await self.redis.set(
+            f"room:{room_id}", room.model_dump_json(), ex=3600
+        )
+        return {"status": "success"}
 
     async def delete_room(self, room_id: str):
         await self.redis.delete(f"room:{room_id}")
