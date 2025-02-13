@@ -21,7 +21,8 @@ class Room(BaseModel):
     max_questions: int
     code: Optional[str] = None
     current_question: Optional[str] = None
-    current_question_index: Optional[int] = None
+    current_question_index: Optional[int] = 1
+    current_question_options: Optional[List[str]] = None
     current_question_answer: Optional[str] = None
     last_questions: List[str] = []
 
@@ -42,6 +43,7 @@ class PublicRoom(BaseModel):
     players: List[PublicPlayer] = []
     max_players: int
     current_question: Optional[str] = None
+    current_question_options: Optional[List[str]] = None
     current_question_index: Optional[int] = None
 
     @classmethod
@@ -65,6 +67,7 @@ class PublicRoom(BaseModel):
             max_players=room.max_players,
             max_questions=room.max_questions,
             current_question=room.current_question,
+            current_question_options=room.current_question_options,
             current_question_index=room.current_question_index
 
         )

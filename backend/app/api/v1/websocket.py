@@ -30,8 +30,7 @@ async def send_new_question(game_service, topic, room_id: str, past_questions=[]
     }
 
     await game_service.set_last_question(room_id, question['question'])
-    await game_service.set_current_question(room_id, question['question'], question["correct_answer"], index)
-
+    await game_service.set_current_question(room_id, question['question'], question["correct_answer"], question['options'], index)
     await manager.broadcast_to_room(
         room_id, 
         json.dumps({"type": "question", "data": public_question}), 
@@ -62,8 +61,14 @@ async def websocket_endpoint(
     await manager.broadcast_to_room(
         room_id, 
         json.dumps({"type": "room_info", "data": room_data.model_dump()}), 
-        None
     )
+    if room_data.current_question:
+        await manager.broadcast_to_room(
+            room_id, 
+            json.dumps({"type": "question", "data": {"question": room_data.current_question, "answers": room_data.current_question_options}}), 
+            None
+        )
+        None
 
     while True:
         try:
@@ -73,10 +78,41 @@ async def websocket_endpoint(
                 await handle_game_start(GameServiceO, room_data.topic, room_id)
             elif data.get("type") == "answer":
                 status = await GameServiceO.handle_submit_answer(room_id, player_id, data.get("data"))
+
+
+                room_data = PublicRoom.from_room(await GameServiceO.get_room(room_id))
+
+                await manager.broadcast_to_room(
+                    room_id, 
+                    json.dumps({"type": "room_info", "data": room_data.model_dump()}), 
+                    None
+                )
+
+
                 if status["has_everyone_answered"]:
                     room = await GameServiceO.get_room(room_id)
+                    if room.current_question_index+1 == room.max_questions:
+                        await send_results(GameServiceO, room_id)
+                        await manager.broadcast_to_room(
+                            room_id, 
+                            json.dumps({"type": "game_ended", "data": None}), 
+                            None
+                        )
+                        continue
                     index = room.current_question_index + 1
                     await send_results(GameServiceO, room_id)
+                    room_data = PublicRoom.from_room(await GameServiceO.get_room(room_id))
+
+                    await manager.broadcast_to_room(
+                        room_id, 
+                        json.dumps({"type": "room_info", "data": room_data.model_dump()}), 
+                        None
+                    )
+                    for player in room.players:
+                        await manager.unicast_to_player(room_id, player.id,
+                            json.dumps({"type": "player_data", "data": player.model_dump()})                    
+                    )
+
                     await send_new_question(GameServiceO, room_data.topic, room_id, room.last_questions, index)
 
         except Exception as WebSocketError:

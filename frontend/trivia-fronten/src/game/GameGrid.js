@@ -1,15 +1,16 @@
 import { useState } from 'react';
-
+import { useEffect } from 'react';
 
 export function LobbyGrid({playerData, roomData}) {
+    console.log(playerData);
     const playerCardList = playerData.map((player) => 
         
-        <div className={`d-flex justify-content-center m-2 rounded border col-sm-2 ${player.is_host ? "bg-admin" : null}`} key={player.name}>
+        <div className={`d-flex flex-column justify-content-center m-2 rounded border col ${player.has_answered ? "answered-bg text-white" : null}`} key={player.name}>
             <div>
-                <h3 className='my-2'>{player.name}</h3>
+                <h3 className="my-2" >{player.name}</h3>
             </div>
-            <div>
-                <p></p>
+            <div >
+                <p className='mb-2 fs-5'>{player.points} pts</p>
             </div>
         </div>
     );  
@@ -25,13 +26,32 @@ export function LobbyGrid({playerData, roomData}) {
     );
 }
 
-export function GameGrid({questionTitle, questionChoices, sendWebsocket}) {
-    console.log(questionTitle, questionChoices);
-    const choiceList = questionChoices.map((choice) => 
-        <div className='col' key={choice}> 
-            <button onClick={() => sendWebsocket({"type": "answer", "data": choice})}>{choice}</button>
-        </div>
-    );
+export function GameGrid({answerData,questionTitle, questionChoices, sendWebsocket}) {
+    var nth = 0;
+    let choiceList = null;
+
+    var colors = ["blue", "red", "green", "yellow"]
+    if (!questionChoices.includes(answerData)) {
+        console.log("No choice list");
+        choiceList = questionChoices.map((choice) => 
+            <div className="col-6 col-md-6 g-3" key={choice} onClick={() => sendWebsocket({"type": "answer", "data": choice})}> 
+                <div className={`p-5 fs-4 h-100 text-light bg-${colors[nth++]} rounded d-flex align-items-center justify-content-center`}>
+                    <p className='m-0'>{choice}</p>
+                </div>
+            </div>
+        );
+    }
+    else {
+        console.log(answerData, questionChoices.map((choice) => choice==answerData));
+        choiceList = questionChoices.map((choice) => 
+            <div className="col-6 col-md-6 g-3" key={choice}> 
+                <div className={`p-5 fs-4 h-100 text-light bg-${choice==answerData ?"green" : "red"} rounded d-flex align-items-center justify-content-center`}>
+                <p className='m-0'>{choice}</p>
+                </div>
+            </div>
+        );  
+    }
+
 
     return (
         <>

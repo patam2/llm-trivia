@@ -75,6 +75,7 @@ class GameService:
         await self.redis.set(
             f"room:{room_id}", room.model_dump_json(), ex=3600
         )
+        
         return {"status": "success", "has_everyone_answered": has_everyone_answered}
 
     async def nullify_answers(self, room_id: str):
@@ -86,10 +87,11 @@ class GameService:
         )
         return {"status": "success"}
     
-    async def set_current_question(self, room_id: str, question: str, answer: str, index: int):
+    async def set_current_question(self, room_id: str, question: str, answer: str, options: list,index: int):
         room = await self.get_room(room_id)
         room.current_question = question
         room.current_question_answer = answer
+        room.current_question_options = options
         room.current_question_index = index
         await self.redis.set(
             f"room:{room_id}", room.model_dump_json(), ex=3600

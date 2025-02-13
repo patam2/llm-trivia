@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { useWebsocket } from '../utils/websocket';
 import { LobbyGrid, GameGrid } from './GameGrid';
@@ -8,10 +8,16 @@ export default function Game () {
     const [roomData, setRoomData] = useState(null);
     const [questionData, setQuestionData] = useState(null);
     const [answerData, setAnswerData] = useState("");
+    var player_data = JSON.parse(localStorage.getItem('playerData'));
+
+    
+    const [playerData, setPlayerData] = useState(player_data);
+
 
     const { roomId } = useParams();
-    var player_data = JSON.parse(localStorage.getItem('playerData'));
-    const { gameState, isConnected, playerData, sendMessage } = useWebsocket(roomId, player_data.id, setRoomData, setQuestionData, setAnswerData);
+    const { gameState, isConnected, sendMessage } = useWebsocket(
+        roomId, player_data.id, setRoomData, setQuestionData, setAnswerData, setPlayerData
+    );
 
     const StartGame = () => {
         console.log('Game started');
@@ -24,7 +30,7 @@ export default function Game () {
 
     const EntireGame = () => {
         return (
-            <div>
+            <div className='h-100'>
                 <div className='sticky-top bg-dark text-light p-2 d-flex align-items-center position-relative'>
                     <div className='d-none d-sm-block  position-absolute start-0 mx-2 ps-3"'>
                         <h4 className='m-0'>Code: {roomData.code}</h4>
@@ -38,15 +44,22 @@ export default function Game () {
                 </div>
                 <div className='container text-center'>
                     <div className=''>
-                        <h4>{answerData}</h4>
                         <div>
                             <LobbyGrid playerData={roomData.players} roomData={roomData} />
-                            {(gameState && questionData) && <GameGrid questionTitle={questionData.question} questionChoices={questionData.answers} sendWebsocket={sendMessage} />}
                         </div>
-                        
+                        {(gameState && questionData) && <GameGrid answerData={answerData} questionTitle={questionData.question} questionChoices={questionData.answers} sendWebsocket={sendMessage} />}
                         {(player_data.is_host && !gameState) && <div>
                             <button type="button" onClick={StartGame} className='btn btn-primary'>Start Game</button>
                         </div>}
+                    </div>
+                </div>
+                <div className='fixed-bottom bg-dark text-light p-2 d-flex align-items-center'>
+                    <div className=''>
+                        <h4 className='m-0'>Points: {playerData.points}</h4>
+                    </div>
+                    <div></div>
+                    <div className='d-none d-sm-block position-absolute text-end end-0 mx-2 pe-3'>
+                        <h4 className='m-0'>Question {roomData.current_question_index+1}/{roomData.max_questions}</h4>
                     </div>
                 </div>
             </div>

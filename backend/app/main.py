@@ -2,6 +2,7 @@
 #uvicorn app.main:app --reload
 from fastapi import FastAPI, WebSocket
 from .api.v1 import rooms, websocket
+from .core.settings import get_settings
 import redis.asyncio as redis
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -17,13 +18,15 @@ async def lifespan(app):
     await app.state.redis.close()
 
 
+settings = get_settings()
+
 app = FastAPI(
     lifespan=lifespan,
 )
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=[settings.CORS_ORIGINS ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

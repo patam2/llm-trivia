@@ -11973,6 +11973,22 @@ body {
   background-color: #f8f9fa;
 }
 
+.bg-blue {
+  background-color: #007bff;
+}
+
+.bg-green {
+  background-color: #28a745;
+}
+
+.bg-red {
+  background-color: #dc3545;
+}
+
+.bg-yellow {
+  background-color: #ffc107;
+}
+
 #root {
   min-height: 100%;
   position: absolute;
@@ -11987,4 +12003,8 @@ body {
   min-height: 100%;
   height: 100%;
   width: 100%;
+}
+
+.answered-bg {
+  background-color: #031633;
 }/*# sourceMappingURL=main.css.map */

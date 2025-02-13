@@ -12,12 +12,11 @@ var example_sent_msg = {
 };
 
 
-export const useWebsocket = (roomId, playerId, setRoomData, setQuestionData, setAnswerData) => {
+export const useWebsocket = (roomId, playerId, setRoomData, setQuestionData, setAnswerData, setPlayerData) => {
     const ws = useRef(WebSocket);
     const [gameState, setGameState] = useState(null);
     const [isConnected, setIsConnected] = useState(false);
-    const [playerData, setPlayerData] = useState(null);
-    
+
     useEffect(() => {
         const connectWebsocket = () => {
             ws.current = new WebSocket(`ws://localhost:8000/api/v1/ws/game/${roomId}/${playerId}`);
@@ -34,17 +33,20 @@ export const useWebsocket = (roomId, playerId, setRoomData, setQuestionData, set
                         setGameState(true);
                         break;
                     case 'question':
+                        setGameState(true);
                         setQuestionData(message.data);
                         break;
                     case 'results':
                         setAnswerData(message.data);
                         break;
                     case 'player_data':
-
+                        setPlayerData(message.data);
+                        break;
                     case 'room_info':
-                        console.log(message.data);
-
                         setRoomData(message.data);
+                        break;
+                    case 'game_over':
+                        setGameState(false);
                         break;
                 }
             }
@@ -60,5 +62,5 @@ export const useWebsocket = (roomId, playerId, setRoomData, setQuestionData, set
     const sendMessage = (message) => {
         ws.current.send(JSON.stringify(message));
     }
-    return {gameState, isConnected, playerData, sendMessage};
+    return {gameState, isConnected, sendMessage};
 }

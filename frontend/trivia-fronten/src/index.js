@@ -9,12 +9,16 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 export default function MainApp() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/game/:roomId" element={<Game />} />
-      </Routes>
-    </BrowserRouter>
+    <>
+      <title>llm-trivia</title>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<App />} />
+          <Route path="/game/:roomId" element={<Game />} />
+        </Routes>
+      </BrowserRouter>
+
+    </>
   );
 }
 
