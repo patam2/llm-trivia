@@ -66,6 +66,8 @@ class GameService:
         room = await self.get_room(room_id)
         for player in room.players:
             if player.id == player_id:
+                if player.has_answered:
+                    break
                 player.has_answered = True
                 if answer == room.current_question_answer:
                     player.points += 1

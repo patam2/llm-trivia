@@ -21,7 +21,7 @@ class Room(BaseModel):
     max_questions: int
     code: Optional[str] = None
     current_question: Optional[str] = None
-    current_question_index: Optional[int] = 1
+    current_question_index: Optional[int] = 0
     current_question_options: Optional[List[str]] = None
     current_question_answer: Optional[str] = None
     last_questions: List[str] = []

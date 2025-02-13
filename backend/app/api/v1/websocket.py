@@ -93,12 +93,18 @@ async def websocket_endpoint(
                     room = await GameServiceO.get_room(room_id)
                     if room.current_question_index+1 == room.max_questions:
                         await send_results(GameServiceO, room_id)
+                        for player in room.players:
+                            await manager.unicast_to_player(room_id, player.id,
+                                json.dumps({"type": "player_data", "data": player.model_dump()})                    
+                        )
                         await manager.broadcast_to_room(
                             room_id, 
                             json.dumps({"type": "game_ended", "data": None}), 
                             None
                         )
-                        continue
+                        await manager.disconnect(room_id)
+                        await GameServiceO.delete_room(room_id)
+                        return
                     index = room.current_question_index + 1
                     await send_results(GameServiceO, room_id)
                     room_data = PublicRoom.from_room(await GameServiceO.get_room(room_id))

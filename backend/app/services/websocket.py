@@ -23,3 +23,8 @@ class WebSocketService:
     async def unicast_to_player(self, room_id, player_id, message):
         await self.rooms[room_id][player_id].send_text(message)
 
+    async def disconnect(self, room_id):
+        for player_id, ws in self.rooms[room_id].items():
+            await ws.close()
+        del self.rooms[room_id]
+        

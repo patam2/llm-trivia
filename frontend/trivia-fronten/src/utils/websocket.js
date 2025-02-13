@@ -27,7 +27,7 @@ export const useWebsocket = (roomId, playerId, setRoomData, setQuestionData, set
 
             ws.current.onmessage = (event) => {
                 const message = JSON.parse(event.data);
-
+                console.log("Websocket message:", message);
                 switch (message.type) {
                     case 'game_started':
                         setGameState(true);
