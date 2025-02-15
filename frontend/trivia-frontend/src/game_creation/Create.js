@@ -3,6 +3,12 @@ import { useNavigate } from 'react-router-dom';
 
 
 function CreateGameComponent () {
+    const [numQuestions, setNumQuestions] = useState(1);
+
+    function setNumQuestionsEvent(event) {
+        setNumQuestions(event.target.value);
+    }
+
     const navigate = useNavigate();
     function CreateGame(event) {
         event.preventDefault();
@@ -37,25 +43,22 @@ function CreateGameComponent () {
     return (
         <div>
           <form>
-            <div>
-                <label>Number of questions:
-                    <input type='number' id="qNum" name='numQuestions' autocomplete="off" max="25" />
-                </label>
+            <div >
+              <input placeholder='Game topic' className='form-control text-center' type='text' id="topic" name='topic' autocomplete="off"  />
             </div>
-            <div>
-                <label>Topic:
-                    <input type='text' id="topic" name='topic' autocomplete="off"  />
-                </label>
+
+            <div className=''>
+              <label for="qNum" class="form-label d-inline-block w-100">{numQuestions} questions</label>
+              <input type="range" class="form-range" id="qNum" min="1" max="25" value={numQuestions} onChange={setNumQuestionsEvent}/>
+
             </div>
 
             <div>
-                <label>Your name:
-                    <input type='text' id="name" name='topic' autocomplete="off"  />
-                </label>
+              <input type='text' id="name" name='topic' className="form-control text-center mb-2" placeholder='Your name' autocomplete="off"  />
             </div>
 
             <div>
-                <button onClick={CreateGame} type='submit' className="btn btn-primary" value=''>Create!</button>
+                <button onClick={CreateGame} type='submit' className="w-100 rounded fs-3 bg-primary-subtle text-black" value=''>Create!</button>
             </div>
           </form>
         </div>
