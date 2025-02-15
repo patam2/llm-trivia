@@ -55,6 +55,7 @@ function JoinGameComponent() {
         .then(data => {
           if (data.status === 'success') {
             setGameCode(code);
+            document.getElementById('joinbtn').disabled = false;
           } else {
             setGameCode('');
           }
@@ -67,13 +68,13 @@ function JoinGameComponent() {
     <div>
       <form>
         <div>
-          <label>Game code:
-            <input type='text' name='gameCode' onInput={CheckCodeValidity}/>
-          </label>
+          <label className='rounded-top bg-warning-subtle w-100 p-2 text-center fs-3'>Game code:          </label>
+
+            <div><input type='text' name='gameCode' onInput={CheckCodeValidity}/></div>
         </div>
         {gameCode && <PlayerNameSelectionComponent />}
         <div>
-          <button onClick={(event) => JoinGame(event, gameCode)} type='submit' className="btn btn-primary" value=''>Join!</button>
+          <button id='joinbtn' onClick={(event) => JoinGame(event, gameCode)} type='submit' className="w-100 rounded-bottom fs-3 bg-warning-subtle text-black" value='' disabled>Join!</button>
         </div>
       </form>
     </div>
