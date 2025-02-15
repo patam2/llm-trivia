@@ -59,7 +59,6 @@ class PublicRoom(BaseModel):
         return cls(
             id=room.id,
             topic=room.topic,
-            name=room.name,
             code=room.code,
             players=players,
             max_players=room.max_players,
