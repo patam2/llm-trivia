@@ -68,13 +68,11 @@ function JoinGameComponent() {
     <div>
       <form>
         <div>
-          <label className='rounded-top bg-warning-subtle w-100 p-2 text-center fs-3'>Game code:          </label>
-
-            <div><input type='text' name='gameCode' onInput={CheckCodeValidity}/></div>
+            <input className='form-control text-center mb-1 rounded-top' type='text' name='gameCode' onInput={CheckCodeValidity} placeholder='Game code'/>
         </div>
         {gameCode && <PlayerNameSelectionComponent />}
         <div>
-          <button id='joinbtn' onClick={(event) => JoinGame(event, gameCode)} type='submit' className="w-100 rounded-bottom fs-3 bg-warning-subtle text-black" value='' disabled>Join!</button>
+          <button id='joinbtn' onClick={(event) => JoinGame(event, gameCode)} type='submit' className="w-100 rounded fs-3 bg-warning-subtle text-black" value='' disabled>Join!</button>
         </div>
       </form>
     </div>

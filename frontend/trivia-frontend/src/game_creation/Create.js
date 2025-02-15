@@ -7,12 +7,10 @@ function CreateGameComponent () {
     function CreateGame(event) {
         event.preventDefault();
         console.log(event.target);
-        const gameName = document.getElementById('gameName').value;
         const numQuestions = document.getElementById('qNum').value;
         const topic = document.getElementById('topic').value;
         const hostName = document.getElementById('name').value;
         const data = {
-          gameName: gameName,
           numQuestions: numQuestions,
           topic: topic,
           hostName: hostName
@@ -39,11 +37,6 @@ function CreateGameComponent () {
     return (
         <div>
           <form>
-            <div>
-                <label>Game name:
-                    <input type='text' id="gameName" name='gameName' autocomplete="off"  />
-                </label>
-            </div>
             <div>
                 <label>Number of questions:
                     <input type='number' id="qNum" name='numQuestions' autocomplete="off" max="25" />
