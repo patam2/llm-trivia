@@ -14,7 +14,6 @@ class Player(BaseModel):
 
 class Room(BaseModel):
     id: str
-    name: str
     topic: str
     players: List[Player] = []
     max_players: int
@@ -36,7 +35,6 @@ class PublicPlayer(BaseModel):
 
 class PublicRoom(BaseModel):
     id: str
-    name: str
     topic: str
     max_questions: int
     code: Optional[str] = None

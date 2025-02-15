@@ -18,7 +18,6 @@ async def create_room(
     
     room = Room(
         id=uuid.uuid4().__str__(), 
-        name=data.get("gameName"),
         topic=data.get("topic"),
         max_questions=data.get("numQuestions"),
         players=[
