@@ -97,11 +97,22 @@ async def websocket_endpoint(
                             await manager.unicast_to_player(room_id, player.id,
                                 json.dumps({"type": "player_data", "data": player.model_dump()})                    
                         )
+                            
+                        room_data = PublicRoom.from_room(await GameServiceO.get_room(room_id))
+
+                        await manager.broadcast_to_room(
+                            room_id, 
+                            json.dumps({"type": "room_info", "data": room_data.model_dump()}), 
+                            None
+                        )
+
                         await manager.broadcast_to_room(
                             room_id, 
                             json.dumps({"type": "game_ended", "data": None}), 
                             None
                         )
+
+
                         await manager.disconnect(room_id)
                         await GameServiceO.delete_room(room_id)
                         return

@@ -14,7 +14,7 @@ var example_sent_msg = {
 
 export const useWebsocket = (roomId, playerId, setRoomData, setQuestionData, setAnswerData, setPlayerData) => {
     const ws = useRef(WebSocket);
-    const [gameState, setGameState] = useState(null);
+    const [gameState, setGameState] = useState("not_started");
     const [isConnected, setIsConnected] = useState(false);
 
     useEffect(() => {
@@ -30,10 +30,10 @@ export const useWebsocket = (roomId, playerId, setRoomData, setQuestionData, set
                 console.log("Websocket message:", message);
                 switch (message.type) {
                     case 'game_started':
-                        setGameState(true);
+                        setGameState("ongoing");
                         break;
                     case 'question':
-                        setGameState(true);
+                        setGameState("ongoing");
                         setQuestionData(message.data);
                         break;
                     case 'results':
@@ -45,12 +45,13 @@ export const useWebsocket = (roomId, playerId, setRoomData, setQuestionData, set
                     case 'room_info':
                         setRoomData(message.data);
                         break;
-                    case 'game_over':
-                        setGameState(false);
+                    case 'game_ended':
+                        setTimeout(() => {
+                            setGameState("ended");
+                        }, 5000);
                         break;
                 }
             }
-
             ws.current.onclose = () => {
                 setIsConnected(false);
             }

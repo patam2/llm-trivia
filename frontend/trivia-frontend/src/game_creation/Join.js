@@ -5,13 +5,9 @@ import { useNavigate } from 'react-router-dom';
 
 function PlayerNameSelectionComponent() {
     return (
-      <>
         <div>
-          <label>Player name:
-            <input type='text' id='playerName' name='playerName' />
-         </label>
+            <input placeholder="Your name" className='form-control text-center mb-1' type='text' id='playerName' name='playerName' />
         </div>
-      </>
     )
   }
   
@@ -20,7 +16,7 @@ function PlayerNameSelectionComponent() {
 function JoinGameComponent() {
   const navigate = useNavigate();
   function JoinGame(event, code){
-    
+    console.log('Joining game with code:', code);
     event.preventDefault();
     var playerName = document.getElementById('playerName').value;
     const data = {
@@ -72,7 +68,7 @@ function JoinGameComponent() {
         </div>
         {gameCode && <PlayerNameSelectionComponent />}
         <div>
-          <button id='joinbtn' onClick={(event) => JoinGame(event, gameCode)} type='submit' className="w-100 rounded fs-3 bg-warning-subtle text-black" value='' disabled>Join!</button>
+          <button id='joinbtn' onClick={(event) => JoinGame(event, gameCode)} type='submit' className="w-100 rounded fs-3 bg-warning-subtle text-black" value=''  >Join!</button>
         </div>
       </form>
     </div>

@@ -67,3 +67,28 @@ export function GameGrid({answerData,questionTitle, questionChoices, sendWebsock
     );
 
 }
+
+export function EndGameGrid({playerData}) {
+    var winnersList = [...playerData]
+    winnersList.sort((a, b) => b.points - a.points);
+    const playerCardList = playerData.map((player) => 
+        <div className='d-flex flex-column justify-content-center m-2 rounded border col' key={player.name}>
+            <div>
+                <h3 className="my-2" >{player.name}</h3>
+            </div>
+            <div >
+                <p className='mb-2 fs-5'>{player.points} pts</p>
+            </div>
+        </div>
+    );  
+
+    return (
+        <>
+            <div>
+                <div>
+                    <div className='row'>{playerCardList}</div>
+                </div>
+            </div>
+        </>
+    );
+}

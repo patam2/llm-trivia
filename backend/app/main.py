@@ -1,6 +1,6 @@
 #.\venv\Scripts\activate
 #uvicorn app.main:app --reload
-from fastapi import FastAPI, WebSocket
+from fastapi import FastAPI
 from .api.v1 import rooms, websocket
 from .core.settings import get_settings
 import redis.asyncio as redis
@@ -51,7 +51,6 @@ async def health_check():
 
 app.include_router(rooms.router, prefix="/api/v1", tags=["rooms"])
 app.include_router(websocket.WebSocketRouter, prefix="/api/v1", tags=["ws"])
-
 
 
 
