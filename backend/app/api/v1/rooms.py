@@ -54,8 +54,3 @@ async def join_room(request: Request, room_code:str, game_service: GameService =
 @router.get("/validity/{room_code}")
 async def check_room_validity(request: Request, room_code: str, game_service: GameService = Depends(GameService)):
     return await game_service.check_room_validity(room_code)
-
-
-@router.get("/delete/{room_id}")
-async def delete_room(request: Request, room_id: str, game_service: GameService = Depends(GameService)):
-    return await game_service.delete_room(room_id)

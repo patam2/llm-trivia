@@ -1,6 +1,3 @@
-import { useState } from 'react';
-import { useEffect } from 'react';
-
 export function LobbyGrid({playerData, roomData}) {
     console.log(playerData);
     const playerCardList = playerData.map((player) => 
@@ -42,10 +39,10 @@ export function GameGrid({answerData,questionTitle, questionChoices, sendWebsock
         );
     }
     else {
-        console.log(answerData, questionChoices.map((choice) => choice==answerData));
+        console.log(answerData, questionChoices.map((choice) => choice === answerData));
         choiceList = questionChoices.map((choice) => 
             <div className="col-6 col-md-6 g-3" key={choice}> 
-                <div className={`p-5 fs-4 h-100 text-light bg-${choice==answerData ?"green" : "red"} rounded d-flex align-items-center justify-content-center`}>
+                <div className={`p-5 fs-4 h-100 text-light bg-${choice === answerData ?"green" : "red"} rounded d-flex align-items-center justify-content-center`}>
                 <p className='m-0'>{choice}</p>
                 </div>
             </div>

@@ -1,16 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 
-var example_msg = {
-    type: 'game_started',
-    data: null
-};
-
-var example_sent_msg = {
-    from: 'player',
-    type: 'start_game',
-    data: null
-};
-
 
 export const useWebsocket = (roomId, playerId, setRoomData, setQuestionData, setAnswerData, setPlayerData) => {
     const ws = useRef(WebSocket);

@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useWebsocket } from '../utils/websocket';
 import { LobbyGrid, GameGrid, EndGameGrid } from './GameGrid';
@@ -41,14 +41,14 @@ export default function Game() {
                 </div>
                 <div className='container text-center'>
                     <div className=''>
-                        {(gameState !='ended') && <div>
+                        {(gameState !=='ended') && <div>
                             <LobbyGrid playerData={roomData.players} roomData={roomData} />
                         </div>}
-                        {(gameState == "ongoing" && questionData) && <GameGrid answerData={answerData} questionTitle={questionData.question} questionChoices={questionData.answers} sendWebsocket={sendMessage} />}
-                        {(player_data.is_host && gameState == "not_started") && <div>
+                        {(gameState === "ongoing" && questionData) && <GameGrid answerData={answerData} questionTitle={questionData.question} questionChoices={questionData.answers} sendWebsocket={sendMessage} />}
+                        {(player_data.is_host && gameState === "not_started") && <div>
                             <button type="button" onClick={StartGame} className='btn btn-primary'>Start Game</button>
                         </div>}
-                        {(gameState == 'ended') && <EndGameGrid playerData={roomData.players} />}
+                        {(gameState === 'ended') && <EndGameGrid playerData={roomData.players} />}
                     </div>
                 </div>
                 <div className='fixed-bottom bg-dark text-light p-2 d-flex align-items-center'>
