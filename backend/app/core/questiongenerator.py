@@ -24,7 +24,7 @@ class ClaudeGenerator:
         ]}}
 
         Past questions that should not be repeated:
-        {'\n'.join(past_questions)}
+        {', '.join(past_questions)}
 
         Requirements:
         - Questions should be engaging and clear

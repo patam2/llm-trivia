@@ -7,16 +7,18 @@ import redis.asyncio as redis
 from fastapi.middleware.cors import CORSMiddleware
 
 
+settings = get_settings()
+
 async def lifespan(app):
     app.state.redis = redis.Redis.from_url(
-        'redis://localhost:6379/0',
+        settings.REDIS_URL,
         decode_responses=True,
     )
     yield
     await app.state.redis.close()
 
 
-settings = get_settings()
+
 
 app = FastAPI(
     lifespan=lifespan,

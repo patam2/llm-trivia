@@ -1,13 +1,13 @@
-FROM node:18-alpine
+FROM node:18-alpine AS front-end
 
-WORKDIR /trivia-frontend
+WORKDIR /frontend/trivia-frontend
 
-COPY package*.json ./
+COPY ./trivia-frontend/package*.json ./
 RUN npm install
 
-COPY . .
+COPY ./trivia-frontend .
 
 RUN npm run build
 
 FROM nginx:alpine
-COPY --from=0 /app/dist /usr/share/nginx/html
+COPY --from=front-end /frontend/trivia-frontend/build /usr/share/nginx/html
