@@ -5,4 +5,3 @@
 
 
 Technologies used: React, Python, Docker, Redis
-Accessible online: 
