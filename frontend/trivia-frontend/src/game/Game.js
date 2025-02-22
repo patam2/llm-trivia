@@ -17,8 +17,6 @@ export default function Game() {
     );
 
     const StartGame = () => {
-        console.log('Game started');
-
         sendMessage({
             'type': 'start_game',
             'data': null
@@ -44,7 +42,9 @@ export default function Game() {
                         {(gameState !=='ended') && <div>
                             <LobbyGrid playerData={roomData.players} roomData={roomData} />
                         </div>}
-                        {(gameState === "ongoing" && questionData) && <GameGrid answerData={answerData} questionTitle={questionData.question} questionChoices={questionData.answers} sendWebsocket={sendMessage} />}
+                        {(gameState === "ongoing" && questionData) && 
+                            <GameGrid answerData={answerData} questionTitle={questionData.question} questionChoices={questionData.answers} sendWebsocket={sendMessage} />
+                        }
                         {(player_data.is_host && gameState === "not_started") && <div>
                             <button type="button" onClick={StartGame} className='btn btn-primary'>Start Game</button>
                         </div>}

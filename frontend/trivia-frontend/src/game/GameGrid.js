@@ -29,7 +29,6 @@ export function GameGrid({answerData,questionTitle, questionChoices, sendWebsock
 
     var colors = ["blue", "red", "green", "yellow"]
     if (!questionChoices.includes(answerData)) {
-        console.log("No choice list");
         choiceList = questionChoices.map((choice) => 
             <div className="col-6 col-md-6 g-3" key={choice} onClick={() => sendWebsocket({"type": "answer", "data": choice})}> 
                 <div className={`p-5 fs-4 h-100 text-light bg-${colors[nth++]} rounded d-flex align-items-center justify-content-center`}>

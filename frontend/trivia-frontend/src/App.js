@@ -3,6 +3,7 @@ import { useState } from 'react';
 import JoinGameComponent from './game_creation/Join.js';
 import CreateGameComponent from './game_creation/Create.js';
 
+
 function App() {
   const [displayCreateGame, setDisplayCreateGame] = useState(false);
   const [displayJoinGame, setDisplayJoinGame] = useState(false);
