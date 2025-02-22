@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     ANTHROPIC_API_KEY: str = None
 
     class Config:
-        env_file = ".env"
+        env_file = ".env.production"
     
 @lru_cache
 def get_settings() -> Settings:
