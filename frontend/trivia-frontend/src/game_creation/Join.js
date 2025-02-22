@@ -22,7 +22,7 @@ function JoinGameComponent() {
     const data = {
         playerName: playerName
     };
-    fetch(`http://localhost:8000/api/v1/rooms/join/${code}`, {
+    fetch(`/api/v1/rooms/join/${code}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

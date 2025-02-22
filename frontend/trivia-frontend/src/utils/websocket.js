@@ -8,7 +8,7 @@ export const useWebsocket = (roomId, playerId, setRoomData, setQuestionData, set
 
     useEffect(() => {
         const connectWebsocket = () => {
-            ws.current = new WebSocket(`ws://localhost:8000/api/v1/ws/game/${roomId}/${playerId}`);
+            ws.current = new WebSocket(`ws://trivia.ptamm.ee:8005/ws/game/${roomId}/${playerId}`);
 
             ws.current.onopen = () => {
                 setIsConnected(true);

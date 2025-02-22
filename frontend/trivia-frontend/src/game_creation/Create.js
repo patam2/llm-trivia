@@ -21,7 +21,7 @@ function CreateGameComponent () {
           topic: topic,
           hostName: hostName
         };
-        fetch('http://localhost:8000/api/v1/rooms/create', {
+        fetch('/api/v1/rooms/create', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

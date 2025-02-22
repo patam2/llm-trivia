@@ -50,7 +50,7 @@ async def health_check():
 
 
 app.include_router(rooms.router, prefix="/api/v1", tags=["rooms"])
-app.include_router(websocket.WebSocketRouter, prefix="/api/v1", tags=["ws"])
+app.include_router(websocket.WebSocketRouter, prefix="/ws", tags=["ws"])
 
 
 
