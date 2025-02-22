@@ -38,7 +38,6 @@ class GameService:
             has_answered=False,
         )
         room_id = await self.get_room_id_from_code(room_code)
-        print(room_id)
         room = await self.get_room(room_id)
         room.players.append(player)
         await self.redis.set(

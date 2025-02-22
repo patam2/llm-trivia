@@ -33,6 +33,7 @@ class PublicPlayer(BaseModel):
     points: int
     has_answered: bool
 
+
 class PublicRoom(BaseModel):
     id: str
     topic: str

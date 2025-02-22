@@ -2,11 +2,10 @@ from fastapi import APIRouter, HTTPException, Depends, Request
 from ...schemas.room import Room, Player
 from ...services.gameservice import GameService
 
-
 import uuid
 
-router = APIRouter(prefix="/rooms", tags=["rooms"])
 
+router = APIRouter(prefix="/rooms", tags=["rooms"])
 
 @router.post("/create")
 async def create_room(
@@ -15,7 +14,6 @@ async def create_room(
     game_service: GameService = Depends(GameService)
 ):
     data = await request.json()
-    
     room = Room(
         id=uuid.uuid4().__str__(), 
         topic=data.get("topic"),
@@ -38,12 +36,14 @@ async def create_room(
     )
     return newroom.model_dump_json()
 
+
 @router.get("/{room_id}")
 async def get_room(request: Request, room_id: str, game_service: GameService = Depends(GameService)):
     room = await game_service.get_room(room_id)
     if room is None:
         raise HTTPException(status_code=404, detail="Room not found")
     return room
+
 
 @router.post('/join/{room_code}')
 async def join_room(request: Request, room_code:str, game_service: GameService = Depends(GameService)):

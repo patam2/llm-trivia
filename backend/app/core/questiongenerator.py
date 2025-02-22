@@ -37,10 +37,10 @@ class ClaudeGenerator:
         - Make sure the JSON array is properly formatted with commas between objects"""
 
         response = await self.client.messages.create(
-            model="claude-3-5-haiku-20241022",
+            model="claude-3-haiku-20240307",
             max_tokens=1000,  # Adjust based on number of questions
             temperature=0.7,
-            system="You are a trivia question generator focused on accuracy and engagement.",
+            system="You are a trivia question generator focused on accuracy and engagement. Return your answer only in resolvable JSON, do not provide any other messages",
             messages=[{
                 "role": "user",
                 "content": prompt

@@ -1,6 +1,6 @@
 #.\venv\Scripts\activate
 #uvicorn app.main:app --reload
-from fastapi import FastAPI
+from fastapi import FastAPI, Response
 from .api.v1 import rooms, websocket
 from .core.settings import get_settings
 import redis.asyncio as redis
@@ -12,9 +12,7 @@ async def lifespan(app):
         'redis://localhost:6379/0',
         decode_responses=True,
     )
-    
     yield
-
     await app.state.redis.close()
 
 
@@ -56,5 +54,5 @@ app.include_router(websocket.WebSocketRouter, prefix="/api/v1", tags=["ws"])
 
 @app.get("/")
 def read_root():
-    return {"Hello": "World"}
+    return Response(status_code=404)
 
