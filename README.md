@@ -5,4 +5,6 @@
 
 
 Technologies used: React, Python, Docker, Redis
+
+
 available until my anthropic wallet hits $0: https://trivia.ptamm.ee 
